@@ -11,14 +11,12 @@ namespace dungeon
 
         static Random random = new Random();
 
-        public static int Random(int min=0,int max=1)
+        public static int Random(int max)
         {
-            Seed = (Seed * 9301 + 49297) % 233280;
-            int rnd = Seed / 233280;
+            Seed = (Seed * 9301 + 49297) % 1337;
+            int rnd = Seed % max;
 
-            //return min + rnd * (max - min);
-
-            return random.Next(0, 2);
+            return rnd;
         }
     }
 }

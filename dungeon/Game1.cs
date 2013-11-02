@@ -34,7 +34,7 @@ namespace dungeon
 
         protected override void Initialize()
         {
-            tileMap = new TileMap(6, 128, 128);
+            tileMap = new TileMap(11, 128, 128);
             tileMap.Generate(20);
             tileMap.Initialize();
 
@@ -62,7 +62,10 @@ namespace dungeon
             currentKeyboardState = Keyboard.GetState();
 
             if (currentKeyboardState.IsKeyDown(Keys.F5) && !oldKeyboardState.IsKeyDown(Keys.F5))
-                tileMap.Regenerate(3, this.Content);
+            {
+                SeedGenerator.Seed = 11;
+                tileMap.Regenerate(20, this.Content);
+            }
 
             oldKeyboardState = currentKeyboardState;
 

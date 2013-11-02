@@ -41,7 +41,7 @@ namespace dungeon
         {
             for (int i = 0; i < this.Width; i++)
                 for (int j = 0; j < this.Height; j++)
-                    map[i, j] = SeedGenerator.Random(0, 2);
+                    map[i, j] = SeedGenerator.Random(2);
 
 
             for(int i = 0; i < smoothness; i++)
