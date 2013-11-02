@@ -17,7 +17,7 @@ namespace dungeon
         SpriteBatch spriteBatch;
 
         TileMap tileMap;
-
+        Camera camera;
         Player player;
 
         KeyboardState currentKeyboardState;
@@ -47,6 +47,8 @@ namespace dungeon
             tileMap = new TileMap(MAP_SEED, MAP_WIDTH, MAP_HEIGHT);
             tileMap.Generate(MAP_SMOOTHNESS);
             tileMap.Initialize();
+
+            camera = new Camera(graphics.GraphicsDevice.Viewport);
 
             player = new Player(new Vector2(96, 96));
 
@@ -81,6 +83,7 @@ namespace dungeon
             }
 
             player.Update(gameTime, currentKeyboardState, oldKeyboardState);
+            camera.Update(player);
 
             oldKeyboardState = currentKeyboardState;
 
@@ -91,7 +94,9 @@ namespace dungeon
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            spriteBatch.Begin();
+            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend,
+                null, null, null, null,
+                camera.Transform);
 
             tileMap.DrawTiles(this.spriteBatch);
 
