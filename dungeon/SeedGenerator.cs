@@ -9,8 +9,6 @@ namespace dungeon
     {
         public static int Seed { get; set; }
 
-        static Random random = new Random();
-
         public static int Random(int max)
         {
             Seed = (Seed * 9301 + 49297) % 1337;

@@ -18,8 +18,18 @@ namespace dungeon
 
         TileMap tileMap;
 
+        Player player;
+
         KeyboardState currentKeyboardState;
         KeyboardState oldKeyboardState;
+
+        const int MAP_WIDTH = 128;
+
+        const int MAP_HEIGHT = 128;
+
+        const int MAP_SMOOTHNESS = 3;
+
+        const int MAP_SEED = 1337;
 
         public Game1()
             : base()
@@ -28,15 +38,17 @@ namespace dungeon
             Content.RootDirectory = "Content";
 
             graphics.PreferredBackBufferWidth = 800;
-            graphics.PreferredBackBufferHeight = 600;
+            graphics.PreferredBackBufferHeight = 480;
             graphics.ApplyChanges();
         }
 
         protected override void Initialize()
         {
-            tileMap = new TileMap(11, 128, 128);
-            tileMap.Generate(20);
+            tileMap = new TileMap(MAP_SEED, MAP_WIDTH, MAP_HEIGHT);
+            tileMap.Generate(MAP_SMOOTHNESS);
             tileMap.Initialize();
+
+            player = new Player(new Vector2(96, 96));
 
             base.Initialize();
         }
@@ -47,6 +59,7 @@ namespace dungeon
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             tileMap.LoadContent(this.Content);
+            player.LoadContent(this.Content);
         }
 
         protected override void UnloadContent()
@@ -63,9 +76,11 @@ namespace dungeon
 
             if (currentKeyboardState.IsKeyDown(Keys.F5) && !oldKeyboardState.IsKeyDown(Keys.F5))
             {
-                SeedGenerator.Seed = 11;
-                tileMap.Regenerate(20, this.Content);
+                SeedGenerator.Seed = MAP_SEED;
+                tileMap.Regenerate(MAP_SMOOTHNESS, this.Content);
             }
+
+            player.Update(gameTime, currentKeyboardState, oldKeyboardState);
 
             oldKeyboardState = currentKeyboardState;
 
@@ -79,6 +94,8 @@ namespace dungeon
             spriteBatch.Begin();
 
             tileMap.DrawTiles(this.spriteBatch);
+
+            player.Draw(this.spriteBatch);
 
             spriteBatch.End();
 

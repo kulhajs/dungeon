@@ -16,6 +16,8 @@ namespace dungeon
 
         public int Height { get; private set; }
 
+        const int TILE_SIZE = 32;
+
         public List<Tile> Tiles;
 
         public TileMap(int seed, int width, int height)
@@ -101,7 +103,7 @@ namespace dungeon
             for(int i = 0; i < Width; i++)
                 for(int j = 0; j < Height; j++)
                 {
-                    Tiles.Add(new Tile(new Vector2(i * 32 , j * 32), map[i, j]));
+                    Tiles.Add(new Tile(new Vector2(i * TILE_SIZE, j * TILE_SIZE), map[i, j]));
                 }
         }
 
