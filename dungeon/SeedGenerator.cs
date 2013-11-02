@@ -5,7 +5,7 @@ using System.Text;
 
 namespace dungeon
 {
-    public static class SeedGenerator : Math
+    public static class SeedGenerator
     {
         public static int Seed { get; set; }
 
