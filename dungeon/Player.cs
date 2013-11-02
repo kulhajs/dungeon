@@ -29,7 +29,7 @@ namespace dungeon
 
         const float VELOCITY = 100f;
 
-        Vector2 direction = Vector2.Zero;
+        public Vector2 Direction = Vector2.Zero;
 
         Vector2 MOVE_DOWN = new Vector2(0, 1);
 
@@ -83,37 +83,37 @@ namespace dungeon
 
         public void Update(GameTime theGameTime, KeyboardState currentKeyboardState, KeyboardState oldKeyboardState)
         {
-            this.direction = Vector2.Zero;
+            this.Direction = Vector2.Zero;
 
             if (currentKeyboardState.IsKeyDown(Keys.Down))
             {
-                this.direction = MOVE_DOWN;
+                this.Direction = MOVE_DOWN;
                 currentMovingDirection = MovingDirection.Down;
             }
             else if (currentKeyboardState.IsKeyDown(Keys.Up))
             {
-                this.direction = MOVE_UP;
+                this.Direction = MOVE_UP;
                 currentMovingDirection = MovingDirection.Up;
             }
 
             else if (currentKeyboardState.IsKeyDown(Keys.Left))
             {
-                this.direction = MOVE_LEFT;
+                this.Direction = MOVE_LEFT;
                 currentMovingDirection = MovingDirection.Left;
             }
             else if (currentKeyboardState.IsKeyDown(Keys.Right))
             {
-                this.direction = MOVE_RIGHT;
+                this.Direction = MOVE_RIGHT;
                 currentMovingDirection = MovingDirection.Right;
             }
 
-            if (direction != Vector2.Zero)
+            if (Direction != Vector2.Zero)
             {
-                direction.Normalize();
+                Direction.Normalize();
                 this.Animate();
             }
 
-            this.Position += direction * VELOCITY * (float)theGameTime.ElapsedGameTime.TotalSeconds;
+            this.Position += Direction * VELOCITY * (float)theGameTime.ElapsedGameTime.TotalSeconds;
 
 
             oldMovingDirection = currentMovingDirection;

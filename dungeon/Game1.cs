@@ -83,7 +83,7 @@ namespace dungeon
             }
 
             player.Update(gameTime, currentKeyboardState, oldKeyboardState);
-            camera.Update(player);
+            camera.Update(player, gameTime);
 
             oldKeyboardState = currentKeyboardState;
 
@@ -92,7 +92,7 @@ namespace dungeon
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.Black);
 
             spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend,
                 null, null, null, null,
