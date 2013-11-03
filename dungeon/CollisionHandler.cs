@@ -14,7 +14,7 @@ namespace dungeon
             foreach (Tile tile in tiles)
                 if (tile.TileType != 1)
                 {
-                    tileRectangle = new Rectangle((int)tile.X, (int)tile.Y, 32, 32);
+                    tileRectangle = new Rectangle((int)tile.X, (int)tile.Y, TileMap.TILE_SIZE, TileMap.TILE_SIZE);
                     if (entityRectangle.Intersects(tileRectangle) && entityRectangle.Left < tileRectangle.Right && entityRectangle.Right > tileRectangle.Right)
                         return true;
                 }
@@ -27,7 +27,7 @@ namespace dungeon
             foreach(Tile tile in tiles)
                 if(tile.TileType != 1)
                 {
-                    tileRectangle = new Rectangle((int)tile.X, (int)tile.Y, 32, 32);
+                    tileRectangle = new Rectangle((int)tile.X, (int)tile.Y, TileMap.TILE_SIZE, TileMap.TILE_SIZE);
                     if (entityRectangle.Intersects(tileRectangle) && entityRectangle.Right > tileRectangle.Left && entityRectangle.Left < tileRectangle.Left)
                         return true;
                 }
@@ -40,7 +40,7 @@ namespace dungeon
             foreach(Tile tile in tiles)
                 if(tile.TileType != 1)
                 {
-                    tileRectangle = new Rectangle((int)tile.X, (int)tile.Y, 32, 32);
+                    tileRectangle = new Rectangle((int)tile.X, (int)tile.Y, TileMap.TILE_SIZE, TileMap.TILE_SIZE);
                     if (entityRectangle.Intersects(tileRectangle) && entityRectangle.Top < tileRectangle.Bottom && entityRectangle.Bottom > tileRectangle.Bottom)
                         return true;
                 }

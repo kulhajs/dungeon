@@ -12,7 +12,7 @@ namespace dungeon
         Viewport view;
 
         float convergenceSpeed = 2.0f;
-        float lookPlayer = 1.5f;
+        float lookPlayer = 1.3f;
         float lookAhead = 0.2f;
 
         public Camera(Viewport view)

@@ -16,7 +16,7 @@ namespace dungeon
 
         public int Height { get; private set; }
 
-        const int TILE_SIZE = 32;
+        public static int TILE_SIZE = 32;
 
         public List<Tile> Tiles;
 

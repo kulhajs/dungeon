@@ -12,9 +12,7 @@ namespace dungeon
         public static int Random(int max)
         {
             Seed = (Seed * 9301 + 49297) % 1337;
-            int rnd = Seed % max;
-
-            return rnd;
+            return Seed % max;
         }
     }
 }
