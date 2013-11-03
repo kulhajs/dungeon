@@ -29,7 +29,7 @@ namespace dungeon
 
         const int MAP_SMOOTHNESS = 3;
 
-        const int MAP_SEED = 1337;
+        const int MAP_SEED = 753;
 
         public Game1()
             : base()
@@ -82,7 +82,7 @@ namespace dungeon
                 tileMap.Regenerate(MAP_SMOOTHNESS, this.Content);
             }
 
-            player.Update(gameTime, currentKeyboardState, oldKeyboardState);
+            player.Update(gameTime, currentKeyboardState, oldKeyboardState, tileMap.Tiles);
             camera.Update(player, gameTime);
 
             oldKeyboardState = currentKeyboardState;

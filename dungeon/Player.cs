@@ -31,6 +31,8 @@ namespace dungeon
 
         public Vector2 Direction = Vector2.Zero;
 
+        public Rectangle PlayerRectangle { get { return new Rectangle((int)this.X + 2, (int)this.Y + 48, 28, 14); } }
+
         Vector2 MOVE_DOWN = new Vector2(0, 1);
 
         Vector2 MOVE_UP = new Vector2(0, -1);
@@ -81,27 +83,34 @@ namespace dungeon
             this.Source = sources[0];
         }
 
-        public void Update(GameTime theGameTime, KeyboardState currentKeyboardState, KeyboardState oldKeyboardState)
+        public void Update(GameTime theGameTime, KeyboardState currentKeyboardState, KeyboardState oldKeyboardState, List<Tile> tiles)
+        {
+            this.UpdateMovement(currentKeyboardState, theGameTime, tiles);
+
+            oldMovingDirection = currentMovingDirection;
+        }
+
+        private void UpdateMovement(KeyboardState currentKeyboardState, GameTime theGameTime, List<Tile> tiles)
         {
             this.Direction = Vector2.Zero;
 
-            if (currentKeyboardState.IsKeyDown(Keys.Down))
+            if (currentKeyboardState.IsKeyDown(Keys.Down) && !CollisionHandler.IsBottomCollision(PlayerRectangle, tiles))
             {
                 this.Direction = MOVE_DOWN;
                 currentMovingDirection = MovingDirection.Down;
             }
-            else if (currentKeyboardState.IsKeyDown(Keys.Up))
+            else if (currentKeyboardState.IsKeyDown(Keys.Up) && !CollisionHandler.IsTopCollision(PlayerRectangle, tiles))
             {
                 this.Direction = MOVE_UP;
                 currentMovingDirection = MovingDirection.Up;
             }
 
-            else if (currentKeyboardState.IsKeyDown(Keys.Left))
+            else if (currentKeyboardState.IsKeyDown(Keys.Left) && !CollisionHandler.IsLeftCollision(PlayerRectangle, tiles))
             {
                 this.Direction = MOVE_LEFT;
                 currentMovingDirection = MovingDirection.Left;
             }
-            else if (currentKeyboardState.IsKeyDown(Keys.Right))
+            else if (currentKeyboardState.IsKeyDown(Keys.Right) && !CollisionHandler.IsRightCollision(PlayerRectangle, tiles))
             {
                 this.Direction = MOVE_RIGHT;
                 currentMovingDirection = MovingDirection.Right;
@@ -114,9 +123,6 @@ namespace dungeon
             }
 
             this.Position += Direction * VELOCITY * (float)theGameTime.ElapsedGameTime.TotalSeconds;
-
-
-            oldMovingDirection = currentMovingDirection;
         }
 
 
