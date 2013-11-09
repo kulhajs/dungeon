@@ -18,6 +18,8 @@ namespace dungeon
 
         public static int TILE_SIZE = 32;
 
+        public static int MAP_SIZE = 128;
+
         public List<Tile> Tiles;
 
         public TileMap(int seed, int width, int height)

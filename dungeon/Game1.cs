@@ -23,13 +23,16 @@ namespace dungeon
         KeyboardState currentKeyboardState;
         KeyboardState oldKeyboardState;
 
+        MouseState currentMouseState;
+        MouseState oldMouseState;
+
         const int MAP_WIDTH = 128;
 
         const int MAP_HEIGHT = 128;
 
         const int MAP_SMOOTHNESS = 3;
 
-        const int MAP_SEED = 753;
+        const int MAP_SEED = 159;
 
         public Game1()
             : base()
@@ -40,6 +43,8 @@ namespace dungeon
             graphics.PreferredBackBufferWidth = 800;
             graphics.PreferredBackBufferHeight = 480;
             graphics.ApplyChanges();
+
+            this.IsMouseVisible = true;
         }
 
         protected override void Initialize()
@@ -75,6 +80,7 @@ namespace dungeon
                 Exit();
 
             currentKeyboardState = Keyboard.GetState();
+            currentMouseState = Mouse.GetState();
 
             if (currentKeyboardState.IsKeyDown(Keys.F5) && !oldKeyboardState.IsKeyDown(Keys.F5))
             {
@@ -82,10 +88,11 @@ namespace dungeon
                 tileMap.Regenerate(MAP_SMOOTHNESS, this.Content);
             }
 
-            player.Update(gameTime, currentKeyboardState, oldKeyboardState, tileMap.Tiles);
+            player.Update(gameTime, currentKeyboardState, oldKeyboardState, tileMap.Tiles, currentMouseState, oldMouseState, camera);
             camera.Update(player, gameTime);
 
             oldKeyboardState = currentKeyboardState;
+            oldMouseState = currentMouseState;
 
             base.Update(gameTime);
         }
