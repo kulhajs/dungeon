@@ -52,7 +52,7 @@ namespace dungeon
                 }
             }
 
-            return steps;
+            return steps * 10;
         }
 
         public static List<Tile> FindPath(Tile start, Tile destination, List<Tile> tileMap)
@@ -78,7 +78,7 @@ namespace dungeon
                 if(currentTile.IsNextTo(destination))
                 {
                     destination.ParentTile = currentTile;
-                    return GetPath(destination, start);
+                    return GetPath(destination, start, destination);
                 }
 
                 neighbours = walkableTiles.Where(tile => tile.IsNextTo(currentTile) && !closedTiles.Contains(tile)).ToList();
@@ -103,7 +103,7 @@ namespace dungeon
             return new List<Tile>();
         }
 
-        private static List<Tile> GetPath (Tile currentTile, Tile start)
+        private static List<Tile> GetPath (Tile currentTile, Tile start, Tile destination)
         {
             List<Tile> path = new List<Tile>();
             path.Add(currentTile);
@@ -112,10 +112,10 @@ namespace dungeon
             {
                 path.Add(currentTile.ParentTile);
                 currentTile = currentTile.ParentTile;
-                currentTile.Color = Color.Red;
             }
 
             path.Reverse();
+            path.Add(destination);
 
             return path;
         }

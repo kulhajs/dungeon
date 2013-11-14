@@ -11,23 +11,27 @@ namespace dungeon
 {
     enum MovingDirection
     {
-        Down = 0, 
-        Up = 5,
-        Right = 10,
-        Left = 15
+        Left = 0, 
+        LeftUp = 4,
+        Up = 8,
+        RightUp = 12,
+        Right = 16, 
+        RightDown = 20,
+        Down = 24,
+        LeftDown = 28
     };
 
     class Player : Sprite
     {
-        const string ASSETNAME = "darksoldiersheetupdate_0";
+        const string ASSETNAME = "ogre";
 
         const int TEXTURE_SIZE = 64;
 
         int currentFrame = 0;
 
-        int frameTime = 8;
+        int frameTime = 6;
 
-        const float VELOCITY = 100f;
+        const float VELOCITY = 60f;
 
         public Vector2 Direction = Vector2.Zero;
 
@@ -55,25 +59,41 @@ namespace dungeon
             new Rectangle(TEXTURE_SIZE, 0, TEXTURE_SIZE, TEXTURE_SIZE),
             new Rectangle(TEXTURE_SIZE * 2, 0, TEXTURE_SIZE, TEXTURE_SIZE),
             new Rectangle(TEXTURE_SIZE * 3, 0, TEXTURE_SIZE, TEXTURE_SIZE), 
-            new Rectangle(TEXTURE_SIZE * 4, 0, TEXTURE_SIZE, TEXTURE_SIZE),
             //MOVE UP
             new Rectangle(0, TEXTURE_SIZE, TEXTURE_SIZE, TEXTURE_SIZE),
             new Rectangle(TEXTURE_SIZE, TEXTURE_SIZE, TEXTURE_SIZE, TEXTURE_SIZE),
             new Rectangle(TEXTURE_SIZE * 2, TEXTURE_SIZE, TEXTURE_SIZE, TEXTURE_SIZE),
             new Rectangle(TEXTURE_SIZE * 3, TEXTURE_SIZE, TEXTURE_SIZE, TEXTURE_SIZE),
-            new Rectangle(TEXTURE_SIZE * 4, TEXTURE_SIZE, TEXTURE_SIZE, TEXTURE_SIZE),
             //MOVE LEFT
             new Rectangle(0, TEXTURE_SIZE * 2, TEXTURE_SIZE, TEXTURE_SIZE),
             new Rectangle(TEXTURE_SIZE, TEXTURE_SIZE * 2, TEXTURE_SIZE, TEXTURE_SIZE),
             new Rectangle(TEXTURE_SIZE * 2, TEXTURE_SIZE * 2, TEXTURE_SIZE, TEXTURE_SIZE),
             new Rectangle(TEXTURE_SIZE * 3, TEXTURE_SIZE * 2, TEXTURE_SIZE, TEXTURE_SIZE),
-            new Rectangle(TEXTURE_SIZE * 4, TEXTURE_SIZE * 2, TEXTURE_SIZE, TEXTURE_SIZE),
             //MOVE RIGHT
             new Rectangle(0, TEXTURE_SIZE * 3, TEXTURE_SIZE, TEXTURE_SIZE),
             new Rectangle(TEXTURE_SIZE, TEXTURE_SIZE * 3, TEXTURE_SIZE, TEXTURE_SIZE),
             new Rectangle(TEXTURE_SIZE * 2, TEXTURE_SIZE * 3, TEXTURE_SIZE, TEXTURE_SIZE),
             new Rectangle(TEXTURE_SIZE * 3, TEXTURE_SIZE * 3, TEXTURE_SIZE, TEXTURE_SIZE),
-            new Rectangle(TEXTURE_SIZE * 4, TEXTURE_SIZE * 3, TEXTURE_SIZE, TEXTURE_SIZE)
+            //MOVE DOWN
+            new Rectangle(0, TEXTURE_SIZE * 4, TEXTURE_SIZE, TEXTURE_SIZE),
+            new Rectangle(TEXTURE_SIZE, TEXTURE_SIZE * 4, TEXTURE_SIZE, TEXTURE_SIZE),
+            new Rectangle(TEXTURE_SIZE * 2, TEXTURE_SIZE * 4, TEXTURE_SIZE, TEXTURE_SIZE),
+            new Rectangle(TEXTURE_SIZE * 3, TEXTURE_SIZE * 4, TEXTURE_SIZE, TEXTURE_SIZE),
+            //MOVE UP
+            new Rectangle(0, TEXTURE_SIZE * 5, TEXTURE_SIZE, TEXTURE_SIZE),
+            new Rectangle(TEXTURE_SIZE, TEXTURE_SIZE * 5, TEXTURE_SIZE, TEXTURE_SIZE),
+            new Rectangle(TEXTURE_SIZE * 2, TEXTURE_SIZE * 5, TEXTURE_SIZE, TEXTURE_SIZE),
+            new Rectangle(TEXTURE_SIZE * 3, TEXTURE_SIZE * 5, TEXTURE_SIZE, TEXTURE_SIZE),
+            //MOVE LEFT
+            new Rectangle(0, TEXTURE_SIZE * 6, TEXTURE_SIZE, TEXTURE_SIZE),
+            new Rectangle(TEXTURE_SIZE, TEXTURE_SIZE * 6, TEXTURE_SIZE, TEXTURE_SIZE),
+            new Rectangle(TEXTURE_SIZE * 2, TEXTURE_SIZE * 6, TEXTURE_SIZE, TEXTURE_SIZE),
+            new Rectangle(TEXTURE_SIZE * 3, TEXTURE_SIZE * 6, TEXTURE_SIZE, TEXTURE_SIZE),
+            //MOVE RIGHT
+            new Rectangle(0, TEXTURE_SIZE * 7, TEXTURE_SIZE, TEXTURE_SIZE),
+            new Rectangle(TEXTURE_SIZE, TEXTURE_SIZE * 7, TEXTURE_SIZE, TEXTURE_SIZE),
+            new Rectangle(TEXTURE_SIZE * 2, TEXTURE_SIZE * 7, TEXTURE_SIZE, TEXTURE_SIZE),
+            new Rectangle(TEXTURE_SIZE * 3, TEXTURE_SIZE * 7, TEXTURE_SIZE, TEXTURE_SIZE),
         };
 
         public Player(Vector2 position)
@@ -130,19 +150,26 @@ namespace dungeon
                 Direction = new Vector2(path[0].X + TileMap.TILE_SIZE / 2, path[0].Y + TileMap.TILE_SIZE / 2) - new Vector2(PlayerRectangle2.X, PlayerRectangle2.Y);
                 Direction.Normalize();
 
-                if (FAbs(Direction.X) > FAbs(Direction.Y))
+                if (FAbs(Direction.X) - FAbs(Direction.Y) > 0.25f)
                 {
                     if (Direction.X < 0)
                         currentMovingDirection = MovingDirection.Left;
                     else
                         currentMovingDirection = MovingDirection.Right;
                 }
-                else
+                else if(FAbs(Direction.X) - FAbs(Direction.Y) < -0.25f)
                 {
                     if (Direction.Y < 0)
                         currentMovingDirection = MovingDirection.Up;
                     else
                         currentMovingDirection = MovingDirection.Down;
+                }
+                else
+                {
+                    if (Direction.X < 0 && Direction.Y < 0) currentMovingDirection = MovingDirection.LeftUp;
+                    else if (Direction.X > 0 && Direction.Y < 0) currentMovingDirection = MovingDirection.RightUp;
+                    else if (Direction.X < 0 && Direction.Y > 0) currentMovingDirection = MovingDirection.LeftDown;
+                    else if (Direction.X > 0 && Direction.Y > 0) currentMovingDirection = MovingDirection.RightDown;
                 }
 
                 this.Position += Direction * VELOCITY * (float)theGameTime.ElapsedGameTime.TotalSeconds;
@@ -199,7 +226,7 @@ namespace dungeon
 
             if(frameTime < 0)
             {
-                if (currentFrame < 4)
+                if (currentFrame < 3)
                     currentFrame++;
                 else
                     currentFrame = 0;
