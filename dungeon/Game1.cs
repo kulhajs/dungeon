@@ -32,7 +32,7 @@ namespace dungeon
 
         const int MAP_SMOOTHNESS = 3;
 
-        const int MAP_SEED = 159;
+        const int MAP_SEED = 6;
 
         public Game1()
             : base()
