@@ -57,7 +57,7 @@ namespace dungeon
 
         public static List<Tile> FindPath(Tile start, Tile destination, List<Tile> tileMap)
         {
-            List<Tile> walkableTiles = tileMap.Where(tile => tile.TileType == 1).ToList();
+            List<Tile> walkableTiles = tileMap;
             List<Tile> neighbours = new List<Tile>();
             Tile currentTile;
 
@@ -110,6 +110,7 @@ namespace dungeon
 
             while(currentTile.Position != start.Position)
             {
+                currentTile.Color = Color.Red;
                 path.Add(currentTile.ParentTile);
                 currentTile = currentTile.ParentTile;
             }

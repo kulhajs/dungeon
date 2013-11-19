@@ -121,9 +121,11 @@ namespace dungeon
             if (destination != Vector2.Zero)
             {
                 Tile start = tiles.Where(tile => tile.TileRectangle.Intersects(PlayerRectangle2)).ToList()[0];
-                Tile des = tiles.Where(tile => tile.TileRectangle.Intersects(new Rectangle((int)destination.X, (int)destination.Y, 2, 2))).ToList()[0];
+                Tile des = tiles.Where(tile => tile.TileRectangle.Intersects(new Rectangle((int)destination.X, (int)destination.Y, 2, 2))).Single();
 
-                path = PathFinder.FindPath(start, des, tiles);
+                if (des.TileType != 1) return;
+
+                path = PathFinder.FindPath(start, des, tiles.Where(tile => tile.TileType == 1).ToList());
             }
 
             if(path.Count > 0)
