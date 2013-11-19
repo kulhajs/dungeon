@@ -121,7 +121,7 @@ namespace dungeon
             if (destination != Vector2.Zero)
             {
                 Tile start = tiles.Where(tile => tile.TileRectangle.Intersects(PlayerRectangle2)).ToList()[0];
-                Tile des = tiles.Where(tile => tile.TileRectangle.Intersects(new Rectangle((int)destination.X, (int)destination.Y, 2, 2))).Single();
+                Tile des = tiles.Where(tile => tile.TileRectangle.Intersects(new Rectangle((int)destination.X, (int)destination.Y, 2, 2))).ToList()[0];
 
                 if (des.TileType != 1) return;
 
