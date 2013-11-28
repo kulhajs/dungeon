@@ -2,10 +2,8 @@
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace dungeon
 {
@@ -38,14 +36,6 @@ namespace dungeon
         public Rectangle PlayerRectangle { get { return new Rectangle((int)this.X + 2, (int)this.Y + 48, 28, 14); } }
 
         public Rectangle PlayerRectangle2 { get { return new Rectangle((int)this.X + 30, (int)this.Y + 62, 1, 1); } }
-
-        Vector2 MOVE_DOWN = new Vector2(0, 1);
-
-        Vector2 MOVE_UP = new Vector2(0, -1);
-
-        Vector2 MOVE_LEFT = new Vector2(-1, 0);
-
-        Vector2 MOVE_RIGHT = new Vector2(1, 0);
 
         MovingDirection currentMovingDirection = MovingDirection.Down;
 
@@ -133,8 +123,6 @@ namespace dungeon
                 UpdateMovement(path, theGameTime);
             }
 
-            //this.UpdateMovement(currentKeyboardState, theGameTime, tiles);
-
             oldMovingDirection = currentMovingDirection;
         }
 
@@ -149,30 +137,7 @@ namespace dungeon
   
             if(path.Count > 0)
             {
-                Direction = new Vector2(path[0].X + TileMap.TILE_SIZE / 2, path[0].Y + TileMap.TILE_SIZE / 2) - new Vector2(PlayerRectangle2.X, PlayerRectangle2.Y);
-                Direction.Normalize();
-
-                if (FAbs(Direction.X) - FAbs(Direction.Y) > 0.25f)
-                {
-                    if (Direction.X < 0)
-                        currentMovingDirection = MovingDirection.Left;
-                    else
-                        currentMovingDirection = MovingDirection.Right;
-                }
-                else if(FAbs(Direction.X) - FAbs(Direction.Y) < -0.25f)
-                {
-                    if (Direction.Y < 0)
-                        currentMovingDirection = MovingDirection.Up;
-                    else
-                        currentMovingDirection = MovingDirection.Down;
-                }
-                else
-                {
-                    if (Direction.X < 0 && Direction.Y < 0) currentMovingDirection = MovingDirection.LeftUp;
-                    else if (Direction.X > 0 && Direction.Y < 0) currentMovingDirection = MovingDirection.RightUp;
-                    else if (Direction.X < 0 && Direction.Y > 0) currentMovingDirection = MovingDirection.LeftDown;
-                    else if (Direction.X > 0 && Direction.Y > 0) currentMovingDirection = MovingDirection.RightDown;
-                }
+                UpdateDirection();
 
                 this.Position += Direction * VELOCITY * (float)theGameTime.ElapsedGameTime.TotalSeconds;
 
@@ -181,43 +146,35 @@ namespace dungeon
 
         }
 
-        //private void UpdateMovement(KeyboardState currentKeyboardState, GameTime theGameTime, List<Tile> tiles)
-        //{
-        //    this.Direction = Vector2.Zero;
+        private void UpdateDirection()
+        {
+            Direction = new Vector2(path[0].X + TileMap.TILE_SIZE / 2, path[0].Y + TileMap.TILE_SIZE / 2) - new Vector2(PlayerRectangle2.X, PlayerRectangle2.Y);
+            Direction.Normalize();
 
-        //    if (currentKeyboardState.IsKeyDown(Keys.Down) && !CollisionHandler.IsBottomCollision(PlayerRectangle, tiles))
-        //    {
-        //        this.Direction = MOVE_DOWN;
-        //        currentMovingDirection = MovingDirection.Down;
-        //    }
-        //    else if (currentKeyboardState.IsKeyDown(Keys.Up) && !CollisionHandler.IsTopCollision(PlayerRectangle, tiles))
-        //    {
-        //        this.Direction = MOVE_UP;
-        //        currentMovingDirection = MovingDirection.Up;
-        //    }
+            if (FAbs(Direction.X) - FAbs(Direction.Y) > 0.25f)
+            {
+                if (Direction.X < 0)
+                    currentMovingDirection = MovingDirection.Left;
+                else
+                    currentMovingDirection = MovingDirection.Right;
+            }
+            else if (FAbs(Direction.X) - FAbs(Direction.Y) < -0.25f)
+            {
+                if (Direction.Y < 0)
+                    currentMovingDirection = MovingDirection.Up;
+                else
+                    currentMovingDirection = MovingDirection.Down;
+            }
+            else
+            {
+                if (Direction.X < 0 && Direction.Y < 0) currentMovingDirection = MovingDirection.LeftUp;
+                else if (Direction.X > 0 && Direction.Y < 0) currentMovingDirection = MovingDirection.RightUp;
+                else if (Direction.X < 0 && Direction.Y > 0) currentMovingDirection = MovingDirection.LeftDown;
+                else if (Direction.X > 0 && Direction.Y > 0) currentMovingDirection = MovingDirection.RightDown;
+            }
+        }
 
-        //    else if (currentKeyboardState.IsKeyDown(Keys.Left) && !CollisionHandler.IsLeftCollision(PlayerRectangle, tiles))
-        //    {
-        //        this.Direction = MOVE_LEFT;
-        //        currentMovingDirection = MovingDirection.Left;
-        //    }
-        //    else if (currentKeyboardState.IsKeyDown(Keys.Right) && !CollisionHandler.IsRightCollision(PlayerRectangle, tiles))
-        //    {
-        //        this.Direction = MOVE_RIGHT;
-        //        currentMovingDirection = MovingDirection.Right;
-        //    }
-
-        //    if (Direction != Vector2.Zero)
-        //    {
-        //        Direction.Normalize();
-        //        this.Animate();
-        //    }
-
-        //    this.Position += Direction * VELOCITY * (float)theGameTime.ElapsedGameTime.TotalSeconds;
-        //}
-
-
-        public void Animate()
+        private void Animate()
         {
             if(oldMovingDirection != currentMovingDirection)
             {
