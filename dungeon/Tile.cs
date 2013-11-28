@@ -20,13 +20,16 @@ namespace dungeon
 
         public int TileType { get; private set; }
 
+        public bool VisitedEh { get; set; }
+
         public Rectangle TileRectangle { get { return new Rectangle((int)this.X, (int)this.Y, TileMap.TILE_SIZE, TileMap.TILE_SIZE); } }
 
         public Tile(Vector2 position, int tileType)
         {
             this.Position = position;
             this.TileType = tileType;
-            this.Color = Color.White;
+            this.Color = Color.Black;
+            this.VisitedEh = false;
         }
         public void LoadContent(ContentManager theContentManager)
         {
@@ -36,6 +39,11 @@ namespace dungeon
         public void Draw(SpriteBatch theSpriteBatch)
         {
             base.Draw(theSpriteBatch, Vector2.Zero, this.Position, this.Color, 0.0f);
+        }
+
+        public float DistanceTo(Vector2 point)
+        {
+            return (point - this.Position).Length();
         }
 
         public bool IsNextTo(Tile tile)

@@ -117,10 +117,20 @@ namespace dungeon
             }
         }
 
-        public void DrawTiles(SpriteBatch theSpriteBatch)
+        public void DrawTiles(SpriteBatch theSpriteBatch, Player player)
         {
             foreach(Tile tile in Tiles)
             {
+                if (tile.DistanceTo(player.Position) < 224)
+                {
+                    tile.Color = Color.White;
+                    tile.VisitedEh = true;
+                }
+                else if(tile.VisitedEh)
+                {
+                    tile.Color = Color.DimGray;
+                }
+
                 tile.Draw(theSpriteBatch);
             }
         }

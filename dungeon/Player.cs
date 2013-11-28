@@ -37,7 +37,7 @@ namespace dungeon
 
         public Rectangle PlayerRectangle { get { return new Rectangle((int)this.X + 2, (int)this.Y + 48, 28, 14); } }
 
-        public Rectangle PlayerRectangle2 { get { return new Rectangle((int)this.X + 30, (int)this.Y + 62, 2, 2); } }
+        public Rectangle PlayerRectangle2 { get { return new Rectangle((int)this.X + 30, (int)this.Y + 62, 1, 1); } }
 
         Vector2 MOVE_DOWN = new Vector2(0, 1);
 

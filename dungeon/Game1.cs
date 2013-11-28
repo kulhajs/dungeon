@@ -105,7 +105,7 @@ namespace dungeon
                 null, null, null, null,
                 camera.Transform);
 
-            tileMap.DrawTiles(this.spriteBatch);
+            tileMap.DrawTiles(this.spriteBatch, player);
 
             player.Draw(this.spriteBatch);
 
